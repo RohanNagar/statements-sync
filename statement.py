@@ -21,12 +21,11 @@ class Statement:
 
     # Fallback for special cases
     if text.isspace() or ('eStmt' in self.filePath) or ('Discover' in self.filePath):
-      print('  Using Fallback PDF text extractor')
       text = high_level.extract_text(self.filePath, "", [0])
 
-    # debug
-    #if 'eStmt' in self.filePath:
-    #  print(text)
+    # For certain accounts (Charles Schwab/Vanguard) we need more pages of the PDF
+    if 'Box Inc.' in text or 'Schwab One' in text or 'Vanguard Brokerage Services' in text:
+      text = text + pdfReader.getPage(1).extractText() + pdfReader.getPage(2).extractText()
 
     pdfFile.close()
     return text
@@ -54,6 +53,20 @@ class Statement:
       return StatementType.BOFA_CHECKING
     elif 'Account# 4400 6662 4070 2916' in self.text:
       return StatementType.BOFA_CUSTOMIZED_CASH
+    elif 'Box Inc.' in self.text and 'Quarterly Activity' in self.text:
+      return StatementType.SCHWAB_QUARTERLY
+    elif 'Box Inc. Employee Stock Purchase Plan' in self.text:
+      return StatementType.SCHWAB_ESPP
+    elif 'Box Inc.' in self.text and 'Restricted Stock Activity' in self.text:
+      return StatementType.SCHWAB_RSU
+    elif 'Schwab One® Account' in self.text:
+      return StatementType.SCHWAB_INDIVIDUAL
+    elif 'Fidelity Brokerage Services' in self.text and 'INDIVIDUAL TOD' in self.text:
+      return StatementType.FIDELITY_INDIVIDUAL
+    elif 'Fidelity Brokerage Services' in self.text and 'HEALTH SAVINGS' in self.text:
+      return StatementType.FIDELITY_HSA
+    elif 'Vanguard Brokerage Services' in self.text and 'Roth IRA' in self.text:
+      return StatementType.VANGUARD_ROTH
     else:
       print(' ' + self.text)
       raise Exception('Unknown Statement Type')

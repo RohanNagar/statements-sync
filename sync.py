@@ -1,41 +1,39 @@
 import argparse
 import os
-import sys
 
 from statement import Statement
 from statementType import StatementType
 from pathlib import Path
 
-def moveFile(stmt, parsedDate):
+def move_file(stmt, parsedDate):
   newFilePath = stmt.type.build_new_file_path(parsedDate)
 
   print('  Moving statement at path ' + stmt.filePath + ' to path ' + newFilePath)
   os.rename(stmt.filePath, newFilePath)
 
-def handleStatement(stmt, dryrun=False):
+def handle_statement(stmt, dryrun=False):
   date = stmt.type.parse_date(stmt)
 
   if not dryrun:
-    moveFile(stmt, date)
+    move_file(stmt, date)
   else:
-    print('  DRY RUN MODE, FILE MOVE SKIPPED.')
+    print('  DRY RUN. Statement ' + stmt.fileName + ' would have been moved to ' + stmt.type.build_new_file_path(date))
 
 def main(search_dir, dryrun=False):
-  print('Starting sync of statements from folder ' + search_dir + '...\n')
+  print('Starting sync of statements from folder ' + search_dir + '...')
   filesMovedCount = 0
 
   with os.scandir(search_dir) as files:
     for f in files:
         if f.is_file() and f.name.endswith('.pdf'):
-          print('Processing PDF file ' + f.name)
+          print('\nProcessing PDF file ' + f.name)
 
           try:
             stmt = Statement(f.name, f.path)
-            handleStatement(stmt, dryrun)
+            handle_statement(stmt, dryrun)
             filesMovedCount += 1
           except Exception as exp:
             print('  ' + str(exp))
-            print('  An exception occured while parsing this file, skipping...')
             continue
 
   print('\nFinished sync of statements. Files moved and renamed: ' + str(filesMovedCount))
