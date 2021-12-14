@@ -8,7 +8,7 @@ cryptography==35.0.0
 cssselect==1.1.0
 fake-useragent==0.1.11
 idna==2.10
-lxml==4.6.3
+lxml==4.6.5
 Naked==0.1.31
 parse==1.19.0
 pdfminer.six==20211012
