@@ -86,6 +86,7 @@ class StatementType(Enum):
   BOFA_CUSTOMIZED_CASH = 'Credit', 'Bank of America', parse_bofa_date
   CSR = 'Credit', 'CSR', parse_chase_date
   DISCOVER_IT = 'Credit', 'Discover', parse_discover_date
+  FREEDOM_FLEX = 'Credit', 'Freedom Flex', parse_chase_date
   FREEDOM_UNLIMIED = 'Credit', 'Freedom Unlimited', parse_chase_date
   PRIME_VISA = 'Credit', 'Prime Visa', parse_chase_date
 

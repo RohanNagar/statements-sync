@@ -37,6 +37,8 @@ class Statement:
       return StatementType.CSR
     elif 'statements-5226' in self.filePath:
       return StatementType.PRIME_VISA
+    elif 'statements-2729' in self.filePath:
+      return StatementType.FREEDOM_FLEX
     elif 'statements-9176' in self.filePath:
       return StatementType.FREEDOM_UNLIMIED
     elif 'BlueCashEveryday' in self.text:
