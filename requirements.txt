@@ -15,7 +15,7 @@ pdfminer.six==20211012
 pycparser==2.21
 pycryptodome==3.10.1
 pyee==8.1.0
-PyPDF2==1.26.0
+PyPDF2==1.27.5
 pyppeteer==0.2.5
 pyquery==1.4.3
 PyYAML==5.4.1
