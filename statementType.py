@@ -41,7 +41,7 @@ def parse_amex_date(statement):
   return parse(statement.text, 'ClosingDate', 11, 19, "%m/%d/%y")
 
 def parse_usbank_date(statement):
-  return parse(statement.text, 'Closing Date', 13, 23, "%m/%d/%Y")
+  return parse(statement.text, 'Closing Date', 14, 24, "%m/%d/%Y")
 
 def parse_ally_date(statement):
   return parse(statement.text, 'Statement Date', 14, 24, "%m/%d/%Y")
