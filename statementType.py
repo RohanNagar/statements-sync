@@ -32,7 +32,7 @@ def parse(pdfText, indicatorText, startOffset, endOffset, dateFormat):
   return format_date(parsedDate)
 
 def parse_barclays_date(statement):
-  return parse(statement.text, 'StatementPeriod', 25, 33, "%m/%d/%y")
+  return parse(statement.text, 'Statement Period', 28, 36, "%m/%d/%y")
 
 def parse_chase_date(statement):
   return parse(statement.text, 'Closing Date', 24, 32, "%m/%d/%y")
@@ -62,7 +62,7 @@ def parse_schwab_individual_date(statement):
   return parse(statement.text, 'Ending Value on', 16, 26, "%m/%d/%Y")
 
 def parse_schwab_quarterly_date(statement):
-  return parse(statement.text, 'StatementPeriod:', 26, 34, "%m/%d/%y")
+  return parse(statement.text, 'Period:', 17, 25, "%m/%d/%y")
 
 def parse_schwab_rsu_date(statement):
   return parse(statement.text, 'Tax Treatment', 13, 21, "%m/%d/%y")

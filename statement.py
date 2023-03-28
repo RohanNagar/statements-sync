@@ -31,7 +31,7 @@ class Statement:
     return text
 
   def __determine_type(self):
-    if 'BarclaysView' in self.text:
+    if 'Barclays View' in self.text:
       return StatementType.BARCLAYS_VIEW
     elif 'statements-1595' in self.filePath:
       return StatementType.CSR
