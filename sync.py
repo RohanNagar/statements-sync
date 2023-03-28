@@ -25,7 +25,7 @@ def main(search_dir, dryrun=False):
 
   with os.scandir(search_dir) as files:
     for f in files:
-        if f.is_file() and f.name.endswith('.pdf'):
+        if f.is_file() and f.name.lower().endswith('.pdf'):
           print('\nProcessing PDF file ' + f.name)
 
           try:

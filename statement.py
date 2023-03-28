@@ -1,4 +1,4 @@
-import PyPDF2
+import pypdf
 
 from pdfminer import high_level
 from statementType import StatementType
@@ -12,12 +12,12 @@ class Statement:
 
   def __read_pdf_text(self):
     pdfFile = open(self.filePath, 'rb')
-    pdfReader = PyPDF2.PdfFileReader(pdfFile)
+    pdfReader = pypdf.PdfReader(pdfFile)
 
-    if pdfReader.isEncrypted:
+    if pdfReader.is_encrypted:
       pdfReader.decrypt('')
 
-    text = pdfReader.getPage(0).extractText()
+    text = pdfReader.pages[0].extract_text()
 
     # Fallback for special cases
     if text.isspace() or ('eStmt' in self.filePath) or ('Discover' in self.filePath):
@@ -25,7 +25,7 @@ class Statement:
 
     # For certain accounts (Charles Schwab/Vanguard) we need more pages of the PDF
     if 'Box Inc.' in text or 'Schwab One' in text or 'Vanguard Brokerage Services' in text:
-      text = text + pdfReader.getPage(1).extractText() + pdfReader.getPage(2).extractText()
+      text = text + pdfReader.pages[1].extract_text() + pdfReader.pages[2].extract_text()
 
     pdfFile.close()
     return text
@@ -69,6 +69,8 @@ class Statement:
       return StatementType.FIDELITY_HSA
     elif 'Vanguard Brokerage Services' in self.text and 'Roth IRA' in self.text:
       return StatementType.VANGUARD_ROTH
+    elif 'Vanguard Brokerage Services' in self.text and 'Traditional IRA' in self.text:
+      return StatementType.VANGUARD_TRAD
     else:
       print(f' {self.text}')
       raise Exception('Unknown Statement Type')

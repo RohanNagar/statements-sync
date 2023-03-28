@@ -19,14 +19,23 @@ YYYY-MM-DD.
 def parse(pdfText, indicatorText, startOffset, endOffset, dateFormat):
   periodIndex = pdfText.find(indicatorText)
   date = pdfText[periodIndex+startOffset:periodIndex+endOffset]
-  parsedDate = datetime.strptime(date, dateFormat)
+
+  try:
+    parsedDate = datetime.strptime(date, dateFormat)
+  except ValueError as v:
+      if len(v.args) > 0 and v.args[0].startswith('unconverted data remains: '):
+        date = date[:-(len(v.args[0]) - 26)]
+        parsedDate = datetime.strptime(date, dateFormat)
+      else:
+        raise
+
   return format_date(parsedDate)
 
 def parse_barclays_date(statement):
   return parse(statement.text, 'StatementPeriod', 25, 33, "%m/%d/%y")
 
 def parse_chase_date(statement):
-  return parse(statement.text, 'Closing Date', 23, 31, "%m/%d/%y")
+  return parse(statement.text, 'Closing Date', 24, 32, "%m/%d/%y")
 
 def parse_amex_date(statement):
   return parse(statement.text, 'ClosingDate', 11, 19, "%m/%d/%y")
@@ -103,3 +112,4 @@ class StatementType(Enum):
   SCHWAB_QUARTERLY = 'Investments', 'CharlesSchwab', parse_schwab_quarterly_date, 'Quarterly'
   SCHWAB_RSU = 'Investments', 'CharlesSchwab', parse_schwab_rsu_date, 'RSULapse'
   VANGUARD_ROTH = 'Investments', 'Vanguard', parse_vanguard_date, 'Roth'
+  VANGUARD_TRAD = 'Investments', 'Vanguard', parse_vanguard_date, 'Trad'
