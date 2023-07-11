@@ -38,7 +38,10 @@ def parse_chase_date(statement):
   return parse(statement.text, 'Closing Date', 24, 32, "%m/%d/%y")
 
 def parse_amex_date(statement):
-  return parse(statement.text, 'ClosingDate', 11, 19, "%m/%d/%y")
+  return parse(statement.text, 'Closing Date', 13, 21, "%m/%d/%y")
+
+def parse_bilt_date(statement):
+  return parse(statement.text, 'Closing Date', 13, 23, "%m/%d/%Y")
 
 def parse_usbank_date(statement):
   return parse(statement.text, 'Closing Date', 14, 24, "%m/%d/%Y")
@@ -47,7 +50,7 @@ def parse_ally_date(statement):
   return parse(statement.text, 'Statement Date', 14, 24, "%m/%d/%Y")
 
 def parse_health_equity_date(statement):
-  return parse(statement.text, 'Period:', 25, 33, "%m/%d/%y")
+  return parse(statement.text, 'Period:', 22, 30, "%m/%d/%y")
 
 def parse_bofa_date(statement):
   return statement.fileName.removeprefix('eStmt_').removesuffix('.pdf')
@@ -98,6 +101,7 @@ class StatementType(Enum):
   FREEDOM_FLEX = 'Credit', 'Freedom Flex', parse_chase_date
   FREEDOM_UNLIMIED = 'Credit', 'Freedom Unlimited', parse_chase_date
   PRIME_VISA = 'Credit', 'Prime Visa', parse_chase_date
+  BILT_MASTERCARD = 'Credit', 'Bilt', parse_bilt_date
 
   # Bank Accounts
   ALLY = 'Banking', 'Ally', parse_ally_date

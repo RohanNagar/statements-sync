@@ -41,8 +41,10 @@ class Statement:
       return StatementType.FREEDOM_FLEX
     elif 'statements-9176' in self.filePath:
       return StatementType.FREEDOM_UNLIMIED
-    elif 'BlueCashEveryday' in self.text:
+    elif 'Blue Cash Everyday' in self.text:
       return StatementType.AMEX_BCE
+    elif 'Bilt' in self.text:
+      return StatementType.BILT_MASTERCARD
     elif 'U.S. Bank Altitude® Go' in self.text:
       return StatementType.ALTITUDE_GO
     elif 'Discover-Statement' in self.filePath:
