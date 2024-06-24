@@ -49,6 +49,8 @@ class Statement:
       return StatementType.ALTITUDE_GO
     elif 'Discover-Statement' in self.filePath:
       return StatementType.DISCOVER_IT
+    elif 'Venture X' in self.text:
+      return StatementType.VENTURE_X
     elif 'Ally Bank' in self.text:
       return StatementType.ALLY
     elif 'HealthEquity' in self.text:

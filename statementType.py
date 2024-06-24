@@ -47,7 +47,7 @@ def parse_usbank_date(statement):
   return parse(statement.text, 'Closing Date', 14, 24, "%m/%d/%Y")
 
 def parse_ally_date(statement):
-  return parse(statement.text, 'Statement Date', 14, 24, "%m/%d/%Y")
+  return parse(statement.text, 'Statement Date', 15, 25, "%m/%d/%Y")
 
 def parse_health_equity_date(statement):
   return parse(statement.text, 'Period:', 22, 30, "%m/%d/%y")
@@ -76,6 +76,9 @@ def parse_fidelity_date(statement):
 def parse_vanguard_date(statement):
   return parse(statement.text[:statement.text.find(', quarter-to-date')], '800-662-2739', 12, 100, "%B %d, %Y")
 
+def parse_capone_date(statement):
+  return parse(statement.text, 'ending in 7483', 31, 43, "%b %d, %Y")
+
 class StatementType(Enum):
   def __init__(self, accountType, accountName, parseDateMethod, suffix=''):
     self.accountType = accountType
@@ -89,7 +92,7 @@ class StatementType(Enum):
 
   def build_new_file_path(self, date):
     year = datetime.strptime(date, "%Y-%m-%d").year
-    return f'/Users/rohannagar/Google Drive/My Drive/Finance/{year}/{self.accountType}/{self.accountName}/{date}{self.suffix}.pdf'
+    return f'/Users/rnagar/Google Drive/My Drive/Finance/{year}/{self.accountType}/{self.accountName}/{date}{self.suffix}.pdf'
 
   # Credit Cards
   ALTITUDE_GO = 'Credit', 'US Bank', parse_usbank_date
@@ -102,6 +105,7 @@ class StatementType(Enum):
   FREEDOM_UNLIMIED = 'Credit', 'Freedom Unlimited', parse_chase_date
   PRIME_VISA = 'Credit', 'Prime Visa', parse_chase_date
   BILT_MASTERCARD = 'Credit', 'Bilt', parse_bilt_date
+  VENTURE_X = 'Credit', 'Venture X', parse_capone_date
 
   # Bank Accounts
   ALLY = 'Banking', 'Ally', parse_ally_date
