@@ -3,5 +3,5 @@ cryptography==44.0.1
 pdfminer.six==20221105
 pycparser==2.21
 pycryptodome==3.19.1
-pypdf==3.17.0
+pypdf==6.1.3
 typing_extensions==4.5.0
