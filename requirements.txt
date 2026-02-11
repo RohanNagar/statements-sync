@@ -1,5 +1,5 @@
 charset-normalizer==3.1.0
-cryptography==44.0.1
+cryptography==46.0.5
 pdfminer.six==20221105
 pycparser==2.21
 pycryptodome==3.19.1
